@@ -4,11 +4,19 @@ library(shinythemes)
 ui <- dashboardPage(
   dashboardHeader(title = "DP Algorithm | Coal Mining in Mozambique",
                   titleWidth = 550),
+  
   dashboardSidebar(
       sidebarMenu(
         menuItem("Summary", tabName = "Summary", icon = icon("dashboard")),
-        menuItem("Widgets", icon = icon("th"), tabName = "widgets",
-                 badgeLabel = "new", badgeColor = "green")
+        menuItem("Number of Years", tabName = "widgets",
+                 badgeLabel = "25", badgeColor = "green"),
+        menuItem("Total Coal Reserves", tabName = "widgets",
+                 badgeLabel = "15", badgeColor = "green"),
+        menuItem("Average Price of Coal", tabName = "widgets",
+                 badgeLabel = "$15", badgeColor = "green"),
+        menuItem("Total Revenue", tabName = "widgets",
+                 badgeLabel = "$1.5m", badgeColor = "green")
+        
       )
     ),
   dashboardBody(
@@ -38,7 +46,20 @@ ui <- dashboardPage(
     .main-header {
                           background-color: #36a949;
     }
-
+    .badge {
+                          font-size: 20px;
+    }
+    .skin-blue .sidebar a {
+                          color: rgb(255, 255, 255);
+    }
+    body {
+                          font-weight: 600;
+    }
+    .sidebar-menu li>a>.pull-right {
+                          top: 40%;
+    }
+    .fa {
+                          font-size: 20px;
                               '))),
     # Boxes need to be put in a row (or column)
     fluidRow(
