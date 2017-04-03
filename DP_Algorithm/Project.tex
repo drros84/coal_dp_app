@@ -90,8 +90,20 @@ $J_{k}(x_k)=\underset{\underset{u_{k}\leq x_{k}}{u_{k}\leq m_{k},}}{\max}\mathbb
 	&=\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\{u_{N-1}(\rho\mathbb{E}[w_{N-1}]+(1-\rho)\mathbb{E}[w_{N-1}]-c)\}=\\
 	&\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\{u_{N-1}(\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c).
 \end{align}
-Since $\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)>c$, the function is always increasing on $u_{N-1}$, so the maximum will be accomplished on the more restrictive constrain. $u_{N-1}=\min\{m_{N-1},x_{N-1}\}$.
- 
+Since $\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)>c$, the function is always increasing on $u_{N-1}$, so the maximum will be accomplished on the more restrictive constrain. $u_{N-1}=\min\{m_{N-1},x_{N-1}\}$.\\
+Now, for $N-2$:\\
+\begin{align}
+	J_{N-2}(x_{N-2})&=\underset{\underset{\ u_{N-2}\leq x_{N-2}}{u_{N-2}\leq m_{N-2},}}{\max}\mathbb{E}[u_{N-2}(\rho w_{N-2}^c+(1-\rho)w_{N-2}^t-c)+J_{N-1}(x_{N-2}-u_{N-1})]=\\
+	&=\underset{\underset{\ u_{N-2}\leq x_{N-1}}{u_{N-2}\leq m_{N-2},}}{\max}\{u_{N-2}(\rho(a_c(N-2)+b_c)+(1-\rho)(a_t(N-2)+b_t)-c)+\\
+	&+\min\{m_{N-1},x_{N-2}-u_{N-2}(\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c)\}\}.
+\end{align}
+Since $\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c>\rho(a_c(N-2)+b_c)+(1-\rho)(a_t(N-2)+b_t)-c$, in order to maximize we need $\min\{m_{N-1},x_{N-2}-u_{N-2}\}$ to be as big as possible. That means 
+$$\max\left\{\begin{array}{ll}
+m_{N-1} & \text{if }x_{N-2}-u_{N-2}>m_{N-1}\\
+x_{N-2}-u_{N-2} & \text{otherwise}
+\end{array}\right.,$$
+which will be attained when $u_{N-2}=(x_{N-2}-m_{N-1})^+$. However, since could happen that $(m_{N-1}-x_{N-2})^+>m_{N-2}$, the optimal policy would be $u_k=\min\{(x_{N-2}-m_{N-1})^+,m_{N-2}\}$.\\
+Backward induction proves that $u_k=\min\{(x_{k}-\su{i=k+1}{N-1}m_i)^+,m_{k}\}$ (I will write it tomorrow)
 
 
 

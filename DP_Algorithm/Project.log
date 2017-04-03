@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.10.1)  3 APR 2017 23:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.10.1)  4 APR 2017 01:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1042,6 +1042,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 87--88
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--95
+
+ []
+
 [2] (./Project.aux) ) 
 Here is how much of TeX's memory you used:
  6654 strings out of 493029
@@ -1064,7 +1069,7 @@ pe1/public/mathabx-type1/matha6.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/mathabx-type1/matha8.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
 ic/mathabx-type1/mathx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
 amsfonts/symbols/msbm10.pfb>
-Output written on Project.pdf (2 pages, 105463 bytes).
+Output written on Project.pdf (2 pages, 108620 bytes).
 PDF statistics:
  63 PDF objects out of 1000 (max. 8388607)
  45 compressed objects within 1 object stream
