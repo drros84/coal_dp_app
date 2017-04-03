@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.10.1)  3 APR 2017 11:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.10.1)  3 APR 2017 12:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -990,25 +990,66 @@ LaTeX Font Info:    Try loading font information for U+rsfs on input line 50.
 
 (/usr/share/texlive/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-) [1
+)
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--68
+
+ []
+
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./Project.aux) ) 
 Here is how much of TeX's memory you used:
- 6643 strings out of 493029
- 92541 string characters out of 6136234
- 162483 words of memory out of 5000000
- 10058 multiletter control sequences out of 15000+600000
- 12519 words of font info for 46 fonts, out of 8000000 for 9000
+ 6654 strings out of 493029
+ 92706 string characters out of 6136234
+ 168483 words of memory out of 5000000
+ 10067 multiletter control sequences out of 15000+600000
+ 14977 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,7n,38p,239b,219s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,13n,38p,755b,219s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on Project.pdf (1 page, 33336 bytes).
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/m
+athabx-type1/matha10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/math
+abx-type1/matha8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mathabx-
+type1/mathx10.pfb>
+Output written on Project.pdf (1 page, 81039 bytes).
 PDF statistics:
- 20 PDF objects out of 1000 (max. 8388607)
- 13 compressed objects within 1 object stream
+ 44 PDF objects out of 1000 (max. 8388607)
+ 31 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

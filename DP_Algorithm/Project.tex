@@ -50,5 +50,34 @@
 	\maketitle
 
 
+We have a company that has a $N$ years concession of 6 mines of coal from which extracts two types of coal (thermal coal and coking coal). Both types are mixed in the same rock, so one does not decide which type to mine, when the coal is mined a certain percentage is coking and the rest thermal. Coking coal is more valuable than thermal coal. Each mine has its own maximum production capacity per year ($m_k^i$, $i=1,\dots,6$), a finite amount of coal ($C^i$, $i=1\dots,6$) and a certain composition (percentage of coking coal $\rho^i$ can be fixed as first approach and then if we have time we put it as a random variable following a distribution $\eta_k^i$ that depends on the observations and the prior we have). \\\\
+The mines are connected to the port (where they are sailed to sell) by a railway that has a total transport capacity $T$. The price of each type of coal is a random variable that we know at the end of the year $w_k^c$, $w_k^t$. There is a cost of extraction per tone of coal $c$ and if the coal is mined but cannot be transported it can be used in the mines contributing with a value of $s<c$.\\\\
+
+\underline{Primitives:}\\
+$x_k^i$: The amount of coal remaining on each mine at period $k$.\\
+$u_k^i$: How much coal to mine at period $k$. \\
+$w_k^c$, $w_k^t$: Price per tone of each type of coal.\\\\
+\underline{Constrains:} $u_k^i\leq m_k^i$, $x_k^i\geq 0$, transportation capacity $T$\\\\
+\underline{Information:}\\
+$c$: Cost of extracting a tone of coal.\\
+$s$: Salvage value for the coal not sold.\\\\
+\underline{Dynamics:}
+$x_{k+1}=x_k-u_k$.\\\\
+\underline{Profit:}\\
+$g_N(x_N)=0$\\
+$g_k(x_k,u_k,w_k)=v_k^cw_k^c+v_k^tw_k^t-cu_k+s\max\{0,u_k-T\}$, where $$\left(\begin{array}{c}
+v_k^c\\
+v_k^t
+\end{array}\right)=\left\{\begin{array}{ll}
+\left(\begin{array}{c}
+\rho u_k\\
+(1-\rho)u_k
+\end{array}\right) & \text{if } u_k\leq T\\
+\left(\begin{array}{c}
+\min\{\rho u_k,T\}\\
+t_k-\min\{\rho u_k,T\}
+\end{array}\right) & \text{if } u_k> T
+\end{array}\right.$$
+
 
 \end{document}
