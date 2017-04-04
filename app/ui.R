@@ -4,7 +4,6 @@ library(shinythemes)
 ui <- dashboardPage(
   dashboardHeader(title = "DP Algorithm | Coal Mining in Mozambique",
                   titleWidth = 550),
-  
   dashboardSidebar(
       sidebarMenu(
         menuItem("Summary", tabName = "Summary", icon = icon("dashboard")),
@@ -67,7 +66,7 @@ ui <- dashboardPage(
       
       box(
         title = "Histogram", status = "warning", solidHeader = TRUE,
-        collapsible = TRUE,
+        collapsible = FALSE,
         plotOutput("plot1", height = 250)
       ),
       
