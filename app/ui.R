@@ -1,94 +1,47 @@
-library(shiny)
-library(shinythemes)
+library(markdown)
+library(DT)
 
-ui <- dashboardPage(
-  dashboardHeader(title = "DP Algorithm | Coal Mining in Mozambique",
-                  titleWidth = 550),
-  dashboardSidebar(
-      sidebarMenu(
-        menuItem("Summary", tabName = "Summary", icon = icon("dashboard")),
-        menuItem("Number of Years", tabName = "widgets",
-                 badgeLabel = "25", badgeColor = "green"),
-        menuItem("Total Coal Reserves", tabName = "widgets",
-                 badgeLabel = "15", badgeColor = "green"),
-        menuItem("Average Price of Coal", tabName = "widgets",
-                 badgeLabel = "$15", badgeColor = "green"),
-        menuItem("Total Revenue", tabName = "widgets",
-                 badgeLabel = "$1.5m", badgeColor = "green")
-        
-      )
-    ),
-  dashboardBody(
-    tags$head(tags$style(HTML('
-      .main-header .logo {
-                              font-family: "Source Sans Pro",Calibri,Candara,Arial,sans-serif;
-                              font-weight: bold;
-                              font-size: 24px;
-                              }
-                              '))),
-    tags$head(tags$style(HTML('
-      .content {
-                              background:white;
-      }
-      .skin-blue .left-side, .skin-blue .main-sidebar, .skin-blue .wrapper {
-                              background:rgb(14, 14, 14);
-      }
-      .skin-blue .main-header .logo {
-                            background-color: #36a949;
-      }
-      .skin-blue .main-header .navbar {
-                            background-color: #36a949;
-      }
-                              .main-header > .navbar {
-                              margin-left: 1375px;
-                              }
-    .main-header {
-                          background-color: #36a949;
-    }
-    .badge {
-                          font-size: 20px;
-    }
-    .skin-blue .sidebar a {
-                          color: rgb(255, 255, 255);
-    }
-    body {
-                          font-weight: 600;
-    }
-    .sidebar-menu li>a>.pull-right {
-                          top: 40%;
-    }
-    .fa {
-                          font-size: 20px;
-                              '))),
-    # Boxes need to be put in a row (or column)
-    fluidRow(
-      #box(plotOutput("plot1", height = 250)),
-      
-      box(
-        title = "Histogram", status = "warning", solidHeader = TRUE,
-        collapsible = FALSE,
-        plotOutput("plot1", height = 250)
-      ),
-      
-      box(
-        title = "Inputs", status = "warning", solidHeader = TRUE,height = 310,
-        "Box content here", br(), "More box content",
-        sliderInput("slider", "Slider input:", 1, 100, 50, round = TRUE),
-        textInput("text", "Text input:")
-      )
-    )
-  )
+navbarPage("Coal Mining in Mozambique | DP Algorithm",
+           tabPanel("Demo",
+                    sidebarLayout(
+                      sidebarPanel(
+                        sliderInput("N", label = h4("Number of Years"), min = 20, 
+                                    max = 100, value = 50),
+                        radioButtons("Coal Type", label= h4("Coal type"),
+                                     c("Thermal"="p", "Coking"="l", "Both"="b")
+                        ),
+                        numericInput("num", 
+                                     label = h4("Ncondezi Reserves"), 
+                                     value = 1),
+                        numericInput("num", 
+                                     label = h4("Revobue"), 
+                                     value = 1),
+                        numericInput("num", 
+                                     label = h4("Zambeze"), 
+                                     value = 1),
+                        numericInput("num", 
+                                     label = h4("Beacon Hill"), 
+                                     value = 1),
+                        numericInput("num", 
+                                     label = h4("Benga"), 
+                                     value = 1),
+                        numericInput("num", 
+                                     label = h4("Moatize"), 
+                                     value = 1)
+                      ),
+                    mainPanel(
+                      plotOutput("plot")
+                    ))
+           ),
+           tabPanel("Report",
+                    includeMarkdown("about.md")
+           ),
+           tabPanel("Algorithm",
+                    includeMarkdown("about.md")
+           ),
+           tabPanel("Map",
+                      fluidRow(
+                        column(12,
+                               img(src = "http://i63.tinypic.com/20p6gq9.jpg"))                               )
+                      )
 )
-#)
-
-server <- function(input, output) {
-  set.seed(122)
-  histdata <- rnorm(500)
-  
-  output$plot1 <- renderPlot({
-    data <- histdata[seq_len(input$slider)]
-    hist(data)
-  })
-}
-
-shinyApp(ui, server)
