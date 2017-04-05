@@ -1,22 +1,43 @@
 function(input, output, session) {
   
   plots_DP <- reactive({
-    simulation_DP_basis(N = input$N,
-                        real_capacity_per_year = real_capacity_per_year, 
-                        mines = ncol(real_capacity_per_year),
-                        capacity = input$CPY,
-                        total_capacity_of_mine = c(input$num1, input$num2, input$num3, 
-                                                   input$num4, input$num5, input$num6),
-                        extraction_cost_per_tone = input$C,
-                        alpha_coking = input$alpha_coking,
-                        alpha_thermal = input$alpha_thermal,
-                        b_coking = input$b_coking,
-                        b_thermal = input$b_thermal,
-                        sd_coking = input$sd_coking,
-                        sd_thermal = input$sd_thermal,
-                        rho = c(input$rho1, input$rho2, input$rho3, 
-                                input$rho4, input$rho5, input$rho6)
-                        )
+    if(input$DP_choose == "dp_basis"){
+     sim1 <-   simulation_DP_basis(N = input$N,
+                           real_capacity_per_year = real_capacity_per_year,
+                           mines = ncol(real_capacity_per_year),
+                           capacity = input$CPY,
+                           total_capacity_of_mine = c(input$num1, input$num2, input$num3,
+                                                     input$num4, input$num5, input$num6),
+                          extraction_cost_per_tone = input$C,
+                          alpha_coking = input$alpha_coking,
+                          alpha_thermal = input$alpha_thermal,
+                          b_coking = input$b_coking,
+                          b_thermal = input$b_thermal,
+                          sd_coking = input$sd_coking,
+                          sd_thermal = input$sd_thermal,
+                          rho = c(input$rho1, input$rho2, input$rho3,
+                                  input$rho4, input$rho5, input$rho6))
+     }
+    if(input$DP_choose == "dp_transport"){
+       sim1 <-  simulation_DP_transport(N = input$N,
+                          real_capacity_per_year = real_capacity_per_year,
+                          mines = ncol(real_capacity_per_year),
+                          capacity = input$CPY,
+                          total_capacity_of_mine = c(input$num1, input$num2, input$num3,
+                                                     input$num4, input$num5, input$num6),
+                          extraction_cost_per_tone = input$C,
+                          alpha_coking = input$alpha_coking,
+                          alpha_thermal = input$alpha_thermal,
+                          b_coking = input$b_coking,
+                          b_thermal = input$b_thermal,
+                          sd_coking = input$sd_coking,
+                          sd_thermal = input$sd_thermal,
+                          rho = c(input$rho1, input$rho2, input$rho3,
+                                  input$rho4, input$rho5, input$rho6),
+                          Trans_lim = input$TL,
+                          salvage = input$S)
+    }
+    sim1
   })
   
   output$plot <- renderPlot({
