@@ -78,11 +78,83 @@ function(input, output, session) {
     
     X <- as.data.frame(X)
     colnames(X) <- colnames(real_capacity_per_year)
+    ##### Reshaping Data
     
-    plot(as.ts(X), type=input$plotType)
+    X_coking <- X + rnorm(nrow(X), mean = 10, sd = 2)
+    X_thermal <- X - rnorm(nrow(X), mean = 3, sd = 2)
     
+    # Create a vector for the number of years under consideration
+    years <- c(2011:(2011+N-1))
+    # Reshape total coal output for ggplot
+    X <- cbind(years, X)
+    X <- melt(X, id = "years")
+    # Reshape coking coal output for ggplot
+    X_coking <- cbind(years, X_coking)
+    X_coking <- melt(X_coking, id = "years")
+    # Reshape thermal coal output for ggplot
+    X_thermal <- cbind(years, X_thermal)
+    X_thermal <- melt(X_thermal, id = "years")
+    
+    g_k <- X
+    g <- g_k
+    g_k <- cbind(years, g_k)
+    g_k <- melt(g_k, id = "years")
+    g <- cbind(years, g)
+    g <- melt(g, id = "years")
+    
+    # plot(as.ts(X), type=input$plotType)
+    
+    # Plot total coal production
+    # output$total_coal_graph <- renderPlot({
+      ggplot(X, aes(x = years, y = value, colour = variable)) +
+        geom_line(size  = 2) +
+        ylab("Production in million tons per annum") +
+        ggtitle("Coking coal extraction per annum") +
+        theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
+        theme(panel.background = element_blank(), panel.grid = element_blank(), 
+              axis.line = element_line(color = "black"), 
+              axis.ticks = element_line(color = "black"), 
+              panel.grid.major.y = element_line(linetype = 2, color = "gray"),
+              axis.title = element_text(face = "bold"), 
+              axis.text = element_text(face = "bold")) +
+        scale_y_continuous(expand = c(0,0.5)) +
+        scale_x_continuous(expand = c(0, 0))
+      # Plot the reward g_k
+      
+      
+   # })
   })
-  
+  output$g_k_graph <- renderPlot({
+    ggplot(g_k, aes(x = years, y = value, colour = variable)) +
+      geom_line(size  = 2) +
+      ylab("Annual profit per annum") +
+      ggtitle("Annual profit") +
+      theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
+      theme(panel.background = element_blank(), panel.grid = element_blank(), 
+            axis.line = element_line(color = "black"), 
+            axis.ticks = element_line(color = "black"), 
+            panel.grid.major.y = element_line(linetype = 2, color = "gray"),
+            axis.title = element_text(face = "bold"), 
+            axis.text = element_text(face = "bold")) +
+      scale_y_continuous(expand = c(0,0.5)) +
+      scale_x_continuous(expand = c(0, 0))
+  })
+  # Plot the accumulated reward g
+  output$g_graph <- renderPlot({
+    ggplot(g, aes(x = years, y = value, colour = variable)) +
+      geom_line(size  = 2) +
+      ylab("Annual profit per annum") +
+      ggtitle("Annual profit") +
+      theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
+      theme(panel.background = element_blank(), panel.grid = element_blank(), 
+            axis.line = element_line(color = "black"), 
+            axis.ticks = element_line(color = "black"), 
+            panel.grid.major.y = element_line(linetype = 2, color = "gray"),
+            axis.title = element_text(face = "bold"), 
+            axis.text = element_text(face = "bold")) +
+      scale_y_continuous(expand = c(0,0.5)) +
+      scale_x_continuous(expand = c(0, 0))
+  })
   output$summary <- renderPrint({
     summary(cars)
   })

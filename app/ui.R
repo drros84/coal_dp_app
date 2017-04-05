@@ -7,9 +7,9 @@ navbarPage("Coal Mining in Mozambique | DP Algorithm",
                       sidebarPanel(
                         sliderInput("N", label = h4("Number of Years"), min = 20, 
                                     max = 100, value = 50),
-                        radioButtons("Coal Type", label= h4("Coal type"),
-                                     c("Thermal"="p", "Coking"="l", "Both"="b")
-                        ),
+                        # radioButtons("Coal Type", label= h4("Coal type"),
+                                    # c("Thermal"="p", "Coking"="l", "Both"="b")
+                        #),
                         numericInput("num", 
                                      label = h4("Ncondezi Reserves"), 
                                      value = 1),
@@ -30,18 +30,38 @@ navbarPage("Coal Mining in Mozambique | DP Algorithm",
                                      value = 1)
                       ),
                     mainPanel(
-                      plotOutput("plot")
+                      plotOutput("plot"),
+                      plotOutput("g_k_graph"),
+                      plotOutput("g_graph")
+                      # plotOutput("thermal_coal_graph")
+                      
                     ))
-           ),
-           tabPanel("Report",
-                    includeMarkdown("about.md")
            ),
            tabPanel("Algorithm",
                     includeMarkdown("about.md")
            ),
+          
+           tabPanel("Report",
+                    includeMarkdown("about.md")
+           ),
+
            tabPanel("Map",
                       fluidRow(
-                        column(12,
-                               img(src = "http://i63.tinypic.com/20p6gq9.jpg"))                               )
-                      )
-)
+                               img(src = "http://i63.tinypic.com/20p6gq9.jpg")                             )
+                      ),
+tags$head(tags$style(HTML('
+      .irs-bar {
+          background: #fb370b;
+          border-top:#fb370b;
+          border-bottom:#fb370b;
+      }
+      .irs-bar-edge {
+          border: #fb370b;
+          background: #fb370b;
+
+      }
+    .irs-single {
+        background: #fb370b;
+    }
+
+                          '))))

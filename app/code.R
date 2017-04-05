@@ -1,3 +1,6 @@
+library(ggplot2)
+library(reshape2)
+
 # Parameters
 N <- 1000 # number of concession years 
 real_capacity_per_year <- read.csv("/Users/k2/GSE/Semester2/Stochastic/coal_dp_app/app/mine_limits.csv")[,-1]
@@ -78,4 +81,20 @@ for(i in 1:N) {
 X <- as.data.frame(X)
 colnames(X) <- colnames(real_capacity_per_year)
 
-X
+##### Reshaping Data
+
+X_coking <- X + rnorm(nrow(X), mean = 10, sd = 2)
+X_thermal <- X - rnorm(nrow(X), mean = 3, sd = 2)
+
+# Create a vector for the number of years under consideration
+years <- c(2011:(2011+N-1))
+# Reshape total coal output for ggplot
+X <- cbind(years, X)
+X <- melt(X, id = "years")
+# Reshape coking coal output for ggplot
+X_coking <- cbind(years, X_coking)
+X_coking <- melt(X_coking, id = "years")
+# Reshape thermal coal output for ggplot
+X_thermal <- cbind(years, X_thermal)
+X_thermal <- melt(X_thermal, id = "years")
+

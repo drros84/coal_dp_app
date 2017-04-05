@@ -8,7 +8,7 @@ In the late 2000's, just over a decade after the end of a bloody civil war, surv
 
 Of particular interest was the composition of Mozambican coal: while some of it was thermal coal, which is burned to generate electricity, a large amount was estimated to be coking coal, which is a necessary input into steel-making, by converting it to coke, and using that in turn to remove impurities from iron through chemical reactions. Coking coal is consiquently much more valuable than thermal coal, and its price was particularly high in 2011 (when this problem is set) due to the surge in demand for construction steel in China. Naturally, uncertainty exists regarding the sustainability of such high prices in the future, and commodity prices are known for being particularly volatile.
 
-One of the biggest challenges faced by the mining sector, and by government, is that the coal deposits are located in the North-West of the country, far away from sea ports (which were in any case few in the North of the country) and with no proper access routes. For this reason, one mining company, Vale, decided to build its own 900km railway line, across Mozambique and Malawi to Nacala, where they would expand the port. The government also planned to renovate and expand the existing 600km railway line to Beira, in the center of the country. Other options were considered, but were less likely.
+One of the biggest challenges faced by the mining sector, and by the government, is that the coal deposits are located in the North-West of the country, far away from sea ports (which were in any case few in the North of the country) and with no proper access routes. For this reason, one mining company, Vale, decided to build its own 900km railway line, across Mozambique and Malawi to Nacala, where they would expand the port. The government also planned to renovate and expand the existing 600km railway line to Beira, in the center of the country. Other options were considered, but were less likely.
 
 This means that in practice, mining companies are faced with a double constraint on their production levels: one is of their own production capacity, and another is the transport capacity to carry the coal to the ports to be exported.
 
@@ -20,3 +20,4 @@ Altogether, these summarise the main variables in our problem:
 * There is some uncertainty regarding the actual composition of coal deposits in each mine. While geological surveys suggest a particular composition, the true composition is learned throughout the mining process and may deviate from these estimates.
 * There are annual production capacity constraints for each mine, and a transport constraint on how much coal can be exported from the region overall.
 
+Access on GIT: https://github.com/drosbcn/coal_dp_app .
