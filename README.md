@@ -16,6 +16,7 @@ The core of the analysis is contained in these two files:
 
 - `NPO_schema.sql`
 - `analysis.R`
+- 'mine_limits.csv'
 
 ### Implementation
 
@@ -25,9 +26,11 @@ To develop the LASSO regression, we first have identified 80 relevant variables 
 
 The `R` analysis relies on the following packages. 
 
-- `glmnet`
-- `dplyr`
-- `RMySQL`
+- `ggplot2`
+- `reshape2`
+- `markdown`
+- `shiny`
+- `DT`
 
 ### Languages Used
 - R
