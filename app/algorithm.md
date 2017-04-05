@@ -34,7 +34,7 @@ $$g_k(x_k,u_k,w_k)=\left\{\begin{array}{ll}
 \left(\min\left\{\sum\limits_{i=1}^6\rho_iu_k^i,T-\sum\limits_{i=1}^6(1-\rho_i)u_k^i\right\}\right)^+w_k^c+\min\left\{\sum\limits_{i=1}^6(1-\rho_i)u_k^i,T\right\}w_k^t-c\sum\limits_{i=1}^6u_k^i & \text{If }w_k^c<w_k^t
 \end{array}\right.$$
 
-**DP algorithm**:  
+**DP algorithm on a toy case**:  
 First approach, $T=\infty$. (no salvage value).
 $J_N(x_N)=0$.  
 $J_{k}(x_k)=\underset{\underset{u_{k}\leq x_{k}}{u_{k}\leq m_{k},}}{\max}\mathbb{E}[u_k(\rho w_k^c+(1-\rho)w_k^t-c)+J_{k+1}(x_k-u_k)]$.  
@@ -45,18 +45,34 @@ $J_{k}(x_k)=\underset{\underset{u_{k}\leq x_{k}}{u_{k}\leq m_{k},}}{\max}\mathbb
 	&=\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\{u_{N-1}(\rho\mathbb{E}[w_{N-1}]+(1-\rho)\mathbb{E}[w_{N-1}]-c)\}=\\
 	&\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\{u_{N-1}(\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c).
 \end{align}
+<<<<<<< HEAD
 Since $\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)>c$, the function is always increasing on $u_{N-1}$, so the maximum will be accomplished on the more restrictive constrain. $u_{N-1}=\min\{m_{N-1},x_{N-1}\}$.  
+=======
+This is function increases with the $u_{N-1}^i$ if $w_{N-1}^c>c$ and $w_{N-1}^t>c$, so in order to be maximal we will mine all we can, which means $u_{N-1}^i=\min\{m_{N-1}^i,x_{N-1}^i\}$.  
+>>>>>>> 1410e1e52471f548438d02c578910a323de46787
 Now, for $N-2$:  
 \begin{align}
-	J_{N-2}(x_{N-2})&=\underset{\underset{\ u_{N-2}\leq x_{N-2}}{u_{N-2}\leq m_{N-2},}}{\max}\mathbb{E}[u_{N-2}(\rho w_{N-2}^c+(1-\rho)w_{N-2}^t-c)+J_{N-1}(x_{N-2}-u_{N-1})]=\\
-	&=\underset{\underset{\ u_{N-2}\leq x_{N-1}}{u_{N-2}\leq m_{N-2},}}{\max}\{u_{N-2}(\rho(a_c(N-2)+b_c)+(1-\rho)(a_t(N-2)+b_t)-c)+\\
-	&+\min\{m_{N-1},x_{N-2}-u_{N-2}\}(\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c)\}.
+	J_{N-2}(x_{N-2})&=\underset{\underset{\ u_{N-2}\leq x_{N-2}}{u_{N-2}\leq m_{N-2},}}{\max}\mathbb{E}\left[w_{N-2}^c\sum\limits_{i=1}^6\rho_iu_{N-2}^i +w_{N-2}^t\sum\limits_{i=1}^6(1-\rho_i)u_{N-2}^i-c\sum\limits_{i=1}^6u_{N-2}^i+J_{N-1}(x_{N-2}-u_{N-2})\right]=\\
+	&=\underset{\underset{u_{N-2}\leq x_{N-2}}{u_{N-2}\leq m_{N-2},}}{\max}\left\{\mathbb{E}[w_{N-2}^c]\sum\limits_{i=1}^6\rho_iu_{N-2}^i +\mathbb{E}[w_{N-2}]^t\sum\limits_{i=1}^6(1-\rho_i)u_{N-2}^i-c\sum\limits_{i=1}^6u_{N-2}^i+J_{N-1}(x_{N-2}-u_{N-2})\right\}.
 \end{align}
-Since $\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c>\rho(a_c(N-2)+b_c)+(1-\rho)(a_t(N-2)+b_t)-c$, in order to maximize we need $\min\{m_{N-1},x_{N-2}-u_{N-2}\}$ to be as big as possible. That means 
-$$\max\left\{\begin{array}{ll}
-m_{N-1} & \text{if }x_{N-2}-u_{N-2}>m_{N-1}\\
-x_{N-2}-u_{N-2} & \text{otherwise}
-\end{array}\right.,$$
-which will be attained when $u_{N-2}=(x_{N-2}-m_{N-1})^+$. However, since it could happen that $(m_{N-1}-x_{N-2})^+>m_{N-2}$, the optimal policy would be $u_k=\min\{(x_{N-2}-m_{N-1})^+,m_{N-2}\}$.  
+In this case, it will depend in how much profit we can get next period. It can basically be translated on seeing which period is more "profitable": if the prices expected for the future are higher than the ones expected for today, we would prefer to mine on the future, so $u_{N-2}^i$ will be the maximum such that we are able to mine the maximum possible in $N-1$ given $x_{N-2}$. In practice, we can compare the weighted expected price in $N-2$ ($\bar{w}_{N-2}=w_{N-2}^c\rho_i+w_{N-2}^t(1-\rho_i)$) and the weighted expected price in $N-1$ ($\bar{w}_{N-1}=w_{N-1}^c\rho_i+w_{N-1}^t(1-\rho_i)$) for each mine. If $\bar{w}_{N-1}>\bar{w}_{N-2}$ we want to mine as much as possible (given $x_{N-2}$) on $N-1$. 
 
-Backward induction proves that $u_k=\min\{(x_{k}-\sum_{i=k+1}^{N-1}m_i)^+,m_{k}\}$
+Going backwards, in order to maximize the expected profit in the $k$th period we need to let mine as much as possible to the periods from $k+1$ to $N-1$ that have a weighted expected price higher than the weighted expected price on $k$, given $x_k$. So we will assure that in those periods we mine as much as possible given $x_k$ (decisions inside $J_{k+1}$ given $x_{k+1}\leq x_k$), and we will mine the maximum we can on $k$ of the amount is left in each mine.
+
+**DP algorithm on the general case:**
+
+The idea is similar, but in this case we have a transportation capacity $T$ that constrains the amount sold each period and adds a salvage value $s$ for the mined but not sold thermal coal. Depending on the prices of coking coal and thermal coal it may be more profitable to mine more coal than we can transport. Since the profit is linear on the decisions $u_k^i$, the maximum is attained on the support of the constrains. 
+
+We can assume that the price of coking coal is higher than the price of thermal coal (otherwise the problem is similar inversing the types). Recalling the profit equation:
+$g_N(x_N)=0.$
+$$g_k(x_k,u_k,w_k)=\min\left\{\sum\limits_{i=1}^6\rho_iu_k^i,T\right\}w_k^c+\left(\min\left\{\sum\limits_{i=1}^6(1-\rho_i)u_k^i,T-\sum\limits_{i=1}^6\rho_iu_k^i\right\}\right)^+w_k^t-c\sum\limits_{i=1}^6u_k^i+s\min\left\{\sum\limits_{i=1}^6(1-\rho_i)u_k^i,\left(T-\sum\limits_{i=1}^6\rho_iu_k^i\right)^+\right\}$$,
+so
+$J_N(x_N)=0.$
+$$J_k(x_k)=\underset{u_k\in U_k}{\max}\mathbb{E}\left[\min\left\{\sum\limits_{i=1}^6\rho_iu_k^i,T\right\}w_k^c+\left(\min\left\{\sum\limits_{i=1}^6(1-\rho_i)u_k^i,T-\sum\limits_{i=1}^6\rho_iu_k^i\right\}\right)^+w_k^t-c\sum\limits_{i=1}^6u_k^i+s\min\left\{\sum\limits_{i=1}^6(1-\rho_i)u_k^i,\left(T-\sum\limits_{i=1}^6\rho_iu_k^i\right)^+\right\}\right]$$
+$T$ adds a new artificial constrain: 
+Consider the period $N-1$, mining $u_{N-1}^i$ such that $\sum\limits_{i=1}^6\rho_i u_{N-1}^i>T$ will be worse than mining $u_{N-1}^i$ such that $\sum\limits_{i=1}^6\rho_i u_{N-1}^i=T$. Also, if $\sum\limits_{i=1}^6 x_{N-1}^i\geq T$, it is better to mine $u_{N-1}^i$ such that $\sum\limits_{i=1}^6 u_{N-1}^i= T$ than $\sum\limits_{i=1}^6 u_{N-1}^i< T$ (the cost is less than the prices and one will be able to sell all the coal mined). Finally, if $\sum\limits_{i=1}^6 x_{N-1}^i< T$, it is better to mine $u_{N-1}^i=x_{N-1}^i$ than $u_{N-1}^i<x_{N-1}^i$ (the cost is less than the prices and one will be able to sell all the coal mined).
+
+Considering now the period $N-2$, those constrains also hold. With the same idea as in the first approach, we have to consider if $N-1$ period is more profitable than $N-2$. Then, our option is to mine as much as possible in $N-1$ given that $x_{N-1}\leq x_{N-2}$, if there is coal left ($x_{N-2}^{i*}=x_{N-2}^i-u_{N-1}^{i*}$>0) we mine in the best way possible (between the options mentioned above and considering the $x_{N-2}^{i*}$ instead of $x_{N-2}^i$).
+
+In general, in the $k$th period one would make sure that the periods from $k+1$ to $N-1$ that are expected to be more profitable than the $k$th have to be mined in the best way possible given $x_{k+1}\leq x_k$ and then mine what is left on the $k$th period in the best way possible considering $x_k^{i*}=x_k^i-\sum\limits_{j=k+1}^{N-1}u_j^{i*}$ as the coal that is left, imposing $u_j^{i*}=0$ for the periods that are expected to be less profitable than the actual.
+
