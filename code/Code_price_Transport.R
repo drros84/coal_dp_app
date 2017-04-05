@@ -30,8 +30,7 @@ if(capacity == "random") {
   }
 }
 
-if(capacity == "constant")
-  else{
+if(capacity == "constant"){
     real_capacity_per_year[is.na(real_capacity_per_year)] <- 0
     capacity_per_year <- NULL
     for(i in 1:mines){
@@ -41,6 +40,45 @@ if(capacity == "constant")
     }
   }
 
+
+
+flow=function(i,weighted_price,price_c,price_t,capacity_per_year){
+  u=rep(0,6)
+  if(sum(capacity_per_year)>Trans_lim){
+    Trans_left=Trans_lim
+    for(j in order(rho,decreasing=TRUE)){
+      if(Trans_left>0){
+        u[j]=min(capacity_per_year[j]*rho[j],Trans_left)/rho[j]
+        Trans_left=Trans_left-u[j]*rho[j]
+      }else{
+        u[j]=0
+      }
+    }
+  }
+  u_overflow=u
+  g_overflow=sum(u*rho*price_c)-cost*sum(u)+sum(salvage*price_t*(1-rho)*u)
+  
+  Trans_left=Trans_lim
+  for(j in order(rho,decreasing = TRUE)){
+    if(Trans_left>0){
+      u[j]=min(capacity_per_year[j],Trans_left)
+      Trans_left=Trans_left-u[j]
+    }else{
+      u[j]=0
+    }
+  }
+  u_underflow=u
+  g_underflow=sum(u*rho*price_c)+sum(u*(1-rho)*price_t)-cost*sum(u)
+  
+  if(g_overflow>g_underflow){
+    u=u_overflow
+    g=u*rho*price_c-cost*u
+  }else{
+    u=u_underflow
+    g=u*rho*price_c+u*(1-rho)*price_t-cost*u
+  }
+  return(list(u=u,g=g))  
+}
 
 #extraction_cost_per_tone <- 10 # extraction cost per tone of coal
 
@@ -70,6 +108,7 @@ colSums2 <- function(x) {
 
 # Dynamics of the model
 X <- NULL
+g_k <- NULL
 alpha_coking <- 150
 b_coking <- 1.2
 error_lag_coking = rnorm(1, mean = 0, sd = 20)
@@ -82,7 +121,9 @@ rho <- c(0.6,0.7,0.75,0.8,0.5,0.65)
 weighted_alpha <- (1 - rho) * alpha_thermal + rho * alpha_coking
 real_prices <- NULL
 Trans_lim=20
-cost=50
+extraction_cost_per_tone=50
+salvage=0.5
+
 
 rho <- NULL
 rho_prior <- c(0.65,0.7,0.7,0.8,0.7,0.5)
@@ -100,26 +141,39 @@ for(i in 1:N) {
   weighted_price_forecast <- (1- rho) * Price_k_forecast_thermal + rho * Price_k_forecast_coking
   weighted_price_vector <- c(weighted_price_forecast, rep(weighted_alpha, (N-i)))
   u_forecast=NULL
-  g_forecast=rep(0,N-i)
-  flow_k=flow(i,weighted_price,Price_k_coking,Price_k_thermal)
-  u_k=flow_k$u
-  g_k=flow_k$g
-  flow_forecast=flow(i+1,weighted_price_forecast,Price_k_forecast_coking,Price_k_forecast_thermal)
+  g_forecast=rep(0,N-i+1)
+  flow_k=flow(i,weighted_price,Price_k_coking,Price_k_thermal,capacity_per_year[i,])
+  u_forecast=rbind(u_forecast,flow_k$u)
+  g_forecast[1]=sum(flow_k$g)/sum(u_forecast[1,])
+  flow_forecast=flow(i+1,weighted_price_forecast,Price_k_forecast_coking,Price_k_forecast_thermal,capacity_per_year[i+1,])
   u_forecast=rbind(u_forecast,flow_forecast$u)
-  g_forecast[1]=flow_forecast$g
-  for(j in 2:(N-i)){#cambiar para que cada vez mire cuanto está ocupado en el futuro.
-    flow_forecast=flow(i+j,weighted_price_vector[j],alpha_coking,alpha_thermal)
+  g_forecast[2]=sum(flow_forecast$g)/sum(u_forecast[2,])
+  for(j in 3:(N-i+1)){#cambiar para que cada vez mire cuanto está ocupado en el futuro.
+    flow_forecast=flow(i+j,weighted_price_vector[j],alpha_coking,alpha_thermal,capacity_per_year[i+j,])
     u_forecast=rbind(u_forecast,flow_forecast$u)
-    g_forecast[j]=flow_forecast$g
+    g_forecast[j]=sum(flow_forecast$g)/sum(u_forecast[j,])
   }
-  colSums(u_forecast[g_forecast > g_k,])
-  if(sum(weighted_price_vector > weighted_price) == 0 | is.vector(capacity_per_year[(i+1):(N+1),])) {
-    X <- rbind(X, pmin(pmax(rep(0, mines), total_capacity_of_mine - rep(0, mines)),
-                       capacity_per_year[i,]))
-  } else {
-    X <- rbind(X, pmin(pmax(rep(0, mines), total_capacity_of_mine - colSums2(capacity_per_year[(i+1):(N+1),][weighted_price_vector > weighted_price,])),
-                       capacity_per_year[i,]))
+  g_mines_fore=NULL
+  mine_remain=total_capacity_of_mine
+  cap_year_remain=capacity_per_year
+  for(j in order(g_forecast,decreasing=TRUE)){
+    cap_year_remain[j,]=pmin(cap_year_remain[j,],mine_remain)
+    if(j==2){
+      flow_forecast=flow(j,weighted_price_forecast,Price_k_forecast_coking,Price_k_forecast_thermal,cap_year_remain[j,])
+      u_forecast[j,]=flow_forecast$u
+      g_mines_fore=rbind(g_mines_fore,flow_forecast$g)
+    }else if(j==1){
+      flow_forecast=flow(j,weighted_price,Price_k_coking,Price_k_thermal,cap_year_remain[j,])
+      u_forecast[j,]=flow_forecast$u
+      g_mines_fore=rbind(g_mines_fore,flow_forecast$g)
+    }else{
+      flow_forecast=flow(j,weighted_price_vector[j],alpha_coking,alpha_thermal,cap_year_remain[j,])
+      u_forecast[j,]=flow_forecast$u
+      g_forecast=rbind(g_mines_fore,flow_forecast$g)
+    }
+    mine_remain=pmax(mine_remain-u_forecast[j,],rep(0,6))
   }
+  X=rbind(X,u[i,])
   total_capacity_of_mine <- total_capacity_of_mine - X[i, ]
   error_lag_coking <- error_coking
   error_lag_thermal <- error_thermal
@@ -139,46 +193,4 @@ for(i in 2:nrow(g)){
 }
 
 
-
-
-price_c=Price_k_coking
-price_t=Price_k_thermal
-
-flow=function(i,weighted_price,price_c,price_t){
-  u=rep(0,6)
-  if(sum(capacity_per_year[i,])>Trans_lim){
-    Trans_left=Trans_lim
-    for(j in order(rho,decreasing=TRUE)){
-      if(Trans_left>0){
-        u[j]=min(capacity_per_year[i,j]*rho[j],Trans_left)/rho[j]
-        Trans_left=Trans_left-u[j]*rho[j]
-      }else{
-        u[j]=0
-      }
-    }
-  }
-  u_overflow=u
-  g_overflow=sum(u*rho*price_c)-cost*sum(u)
-  
-  Trans_left=Trans_lim
-  for(j in order(weighted_price,decreasing = TRUE)){
-    if(Trans_left>0){
-      u[j]=min(capacity_per_year[i,j],Trans_left)
-      Trans_left=Trans_left-u[j]
-    }else{
-      u[j]=0
-    }
-  }
-  u_underflow=u
-  g_underflow=sum(u*rho*price_c)+sum(u*(1-rho)*price_t)-cost*sum(u)
-  
-  if(g_overflow>g_underflow){
-    u=u_overflow
-    g=g_overflow
-  }else{
-    u=u_underflow
-    g=g_underflow
-  }
-  return(list(u=u,g=g))  
-}
 
