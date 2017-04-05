@@ -2,8 +2,9 @@
 
 ### Overview
 
-Motivation
-- This project is motivated by a historical example of the surge in coal mining investment in Mozambique in the late 2000s'.
+Motivation:
+
+- This project is motivated by a historical example of the surge in coal mining investment in Mozambique in the late 2000s'. This example uses this scenario as a backdrop for creating a dynamic programming algorithm to model the optimal behaviour of mining companies starting mining operations in Mozambique.
 
 The objectives of our project are to:
 
@@ -16,7 +17,6 @@ The core of the analysis is contained in these two files:
 
 - `NPO_schema.sql`
 - `analysis.R`
-- 'mine_limits.csv'
 
 ### Implementation
 
@@ -28,9 +28,6 @@ The `R` analysis relies on the following packages.
 
 - `ggplot2`
 - `reshape2`
-- `markdown`
-- `shiny`
-- `DT`
 
 ### Languages Used
 - R
