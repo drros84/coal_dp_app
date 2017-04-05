@@ -29,7 +29,6 @@ $w_k^t=a^t + \beta^t\epsilon_{k-1}^t + \epsilon_k^t$, where $\mathbb{E}[\epsilon
 
 **Profit**:  
 $g_N(x_N)=0$  
-
 $$g_k(x_k,u_k,w_k)=\left\{\begin{array}{ll}
 \min\left\{\sum\limits_{i=1}^6\rho_iu_k^i,T\right\}w_k^c+\left(\min\left\{\sum\limits_{i=1}^6(1-\rho_i)u_k^i,T-\sum\limits_{i=1}^6\rho_iu_k^i\right\}\right)^+w_k^t-c\sum\limits_{i=1}^6u_k^i+s\min\left\{\sum\limits_{i=1}^6(1-\rho_i)u_k^i,\left(T-\sum\limits_{i=1}^6\rho_iu_k^i\right)^+\right\} & \text{If }w_k^c\geq w_k^t\\
 \left(\min\left\{\sum\limits_{i=1}^6\rho_iu_k^i,T-\sum\limits_{i=1}^6(1-\rho_i)u_k^i\right\}\right)^+w_k^c+\min\left\{\sum\limits_{i=1}^6(1-\rho_i)u_k^i,T\right\}w_k^t-c\sum\limits_{i=1}^6u_k^i & \text{If }w_k^c<w_k^t
@@ -42,10 +41,11 @@ $J_{k}(x_k)=\underset{\underset{u_{k}\leq x_{k}}{u_{k}\leq m_{k},}}{\max}\mathbb
 
 **Solving the DP problem**:
 \begin{align}
-	J_{N-1}(x_{N-1})&=\underset{\underset{u_{N-1}^i\leq x_{N-1}^i}{u_{N-1}^i\leq m_{N-1}^i,}}{\max}\mathbb{E}\left[w_{N-1}^c\sum\limits_{i=1}^6\rho_iu_{N-1}^i +w_{N-1}^t\sum\limits_{i=1}^6(1-\rho_i)u_{N-1}^i-c\sum\limits_{i=1}^6u_{N-1}^i\right]\\
-	&=\underset{\underset{\ u_{N-1}^i\leq x_{N-1}^i}{u_{N-1}^i\leq m_{N-1}^i,}}{\max}\left\{\mathbb{E}[w_{N-1}]\sum\limits_{i=1}^6\rho_iu_{N-1}^i+\mathbb{E}[w_{N-1}]\sum\limits_{i=1}^6(1-\rho_i)u_{N-1}^i-c\sum\limits_{i=1}^6u_{N-1}^i\right\}
+	J_{N-1}(x_{N-1})&=\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\mathbb{E}[u_{N-1}(\rho w_{N-1}^c+(1-\rho)w_{N-1}^t-c)]\\
+	&=\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\{u_{N-1}(\rho\mathbb{E}[w_{N-1}]+(1-\rho)\mathbb{E}[w_{N-1}]-c)\}=\\
+	&\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\{u_{N-1}(\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c).
 \end{align}
-Th. $u_{N-1}^i=\min\{m_{N-1}^i,x_{N-1}^i\}$.  
+Since $\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)>c$, the function is always increasing on $u_{N-1}$, so the maximum will be accomplished on the more restrictive constrain. $u_{N-1}=\min\{m_{N-1},x_{N-1}\}$.  
 Now, for $N-2$:  
 \begin{align}
 	J_{N-2}(x_{N-2})&=\underset{\underset{\ u_{N-2}\leq x_{N-2}}{u_{N-2}\leq m_{N-2},}}{\max}\mathbb{E}[u_{N-2}(\rho w_{N-2}^c+(1-\rho)w_{N-2}^t-c)+J_{N-1}(x_{N-2}-u_{N-1})]=\\

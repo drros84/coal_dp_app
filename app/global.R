@@ -1,7 +1,7 @@
 library(reshape2)
 library(ggplot2)
 
-real_capacity_per_year <- read.csv("~/Dropbox/Documents/BGSE/Second_Term/SMO/project/Github/coal_dp_app/app/mine_limits.csv")[,-1]
+real_capacity_per_year <- read.csv("/Users/k2/GSE/Semester2/Stochastic/coal_dp_app/app/mine_limits.csv")[,-1]
 mines <- ncol(real_capacity_per_year)  # number of mines
 Trans_lim = 20
 salvage = 0.5
