@@ -1,6 +1,6 @@
 **Motivation**
 
-In 2011, one member of our group was working for the Mozambican Ministry of Planning and Development and was tasked with predicting government revenue from the nascent coal-mining industry. This example uses this scenario as a backdrop for creating a dynamic programming algorithm to model the optimal behaviour of mining companies starting mining operations in Mozambique.
+In 2011 $\epsilon$, one member of our group was working for the Mozambican Ministry of Planning and Development and was tasked with predicting government revenue from the nascent coal-mining industry. This example uses this scenario as a backdrop for creating a dynamic programming algorithm to model the optimal behaviour of mining companies starting mining operations in Mozambique.
 
 **Background**
 
@@ -19,5 +19,7 @@ Altogether, these summarise the main variables in our problem:
 * Coking coal is more valuable than thermal coal, and their prices are volatile and uncertain.
 * There is some uncertainty regarding the actual composition of coal deposits in each mine. While geological surveys suggest a particular composition, the true composition is learned throughout the mining process and may deviate from these estimates.
 * There are annual production capacity constraints for each mine, and a transport constraint on how much coal can be exported from the region overall.
+
+![source: Mozambique](https://raw.githubusercontent.com/drosbcn/coal_dp_app/master/app/moz_map.jpg?token=AAxqqfICKphYGwHSoFfG8DtjdYROUfvcks5Y7g6nwA%3D%3D)
 
 Access on GIT: https://github.com/drosbcn/coal_dp_app .
