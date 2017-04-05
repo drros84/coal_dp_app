@@ -42,7 +42,7 @@ if(capacity == "constant"){
 
 
 
-flow=function(i,weighted_price,price_c,price_t,capacity_per_year){
+flow=function(i,weighted_price,price_c,price_t,capacity_per_year,Trans_lim,rho,extraction_cost_per_tone,salvage){
   u=rep(0,6)
   if(sum(capacity_per_year)>Trans_lim){
     Trans_left=Trans_lim
@@ -144,19 +144,19 @@ for(i in 1:N) {
   g_forecast=rep(0,N-i+1)
   if(i==N){
     g_mines_fore=NULL
-    flow_k=flow(i,weighted_price,Price_k_coking,Price_k_thermal,capacity_per_year[i,])
+    flow_k=flow(i,weighted_price,Price_k_coking,Price_k_thermal,capacity_per_year[i,],Trans_lim,rho,extraction_cost_per_tone,salvage)
     u_forecast=rbind(u_forecast,flow_k$u)
     g_mines_fore=rbind(g_mines_fore,flow_k$g)
   }else{
-    flow_k=flow(i,weighted_price,Price_k_coking,Price_k_thermal,capacity_per_year[i,])
+    flow_k=flow(i,weighted_price,Price_k_coking,Price_k_thermal,capacity_per_year[i,],Trans_lim,rho,extraction_cost_per_tone,salvage)
     u_forecast=rbind(u_forecast,flow_k$u)
     g_forecast[1]=sum(flow_k$g)/sum(u_forecast[1,])
-    flow_forecast=flow(i+1,weighted_price_forecast,Price_k_forecast_coking,Price_k_forecast_thermal,capacity_per_year[i+1,])
+    flow_forecast=flow(i+1,weighted_price_forecast,Price_k_forecast_coking,Price_k_forecast_thermal,capacity_per_year[i+1,],Trans_lim,rho,extraction_cost_per_tone,salvage)
     u_forecast=rbind(u_forecast,flow_forecast$u)
     g_forecast[2]=sum(flow_forecast$g)/sum(u_forecast[2,])
     if(N-i+1>=3){
       for(j in 3:(N-i+1)){
-        flow_forecast=flow(i+j,weighted_price_vector[j],alpha_coking,alpha_thermal,capacity_per_year[i+j,])
+        flow_forecast=flow(i+j,weighted_price_vector[j],alpha_coking,alpha_thermal,capacity_per_year[i+j,],Trans_lim,rho,extraction_cost_per_tone,salvage)
         u_forecast=rbind(u_forecast,flow_forecast$u)
         g_forecast[j]=sum(flow_forecast$g)/sum(u_forecast[j,])
       }
@@ -167,15 +167,15 @@ for(i in 1:N) {
     for(j in order(g_forecast,decreasing=TRUE)){
       cap_year_remain[j+i,]=pmin(cap_year_remain[j+i,],mine_remain)
       if(j==2){
-        flow_forecast=flow(j,weighted_price_forecast,Price_k_forecast_coking,Price_k_forecast_thermal,cap_year_remain[j+i,])
+        flow_forecast=flow(j,weighted_price_forecast,Price_k_forecast_coking,Price_k_forecast_thermal,cap_year_remain[j+i,],Trans_lim,rho,extraction_cost_per_tone,salvage)
         u_forecast[j,]=flow_forecast$u
         g_mines_fore[j,]=flow_forecast$g
       }else if(j==1){
-        flow_forecast=flow(j,weighted_price,Price_k_coking,Price_k_thermal,cap_year_remain[j+i,])
+        flow_forecast=flow(j,weighted_price,Price_k_coking,Price_k_thermal,cap_year_remain[j+i,],Trans_lim,rho,extraction_cost_per_tone,salvage)
         u_forecast[j,]=flow_forecast$u
         g_mines_fore[j,]=flow_forecast$g
       }else{
-        flow_forecast=flow(j,weighted_price_vector[j],alpha_coking,alpha_thermal,cap_year_remain[j+i,])
+        flow_forecast=flow(j,weighted_price_vector[j],alpha_coking,alpha_thermal,cap_year_remain[j+i,],Trans_lim,rho,extraction_cost_per_tone,salvage)
         u_forecast[j,]=flow_forecast$u
         g_mines_fore[j,]=flow_forecast$g
       }
