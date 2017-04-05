@@ -4,9 +4,9 @@ In 2011, one member of our group was working for the Mozambican Ministry of Plan
 
 **Background**
 
-In the late 2000's, just over a decade after the end of a bloody civil war, surveys reported that Mozambique's Tete province was likely to hold the largest untapped coal reserves in the world. This spurred a rush by large multinational mining companies to obtain mining concessions in the region, and the government granted many prospection licences, and a few mining licences. In one of the poorest countries in the World, with an economy dominated until recently by fishing and agriculture, it seemed the country was on the verge of an economic revolution.
+In the late 2000's, just over a decade after the end of a bloody civil war, surveys reported that Mozambique's Tete province was likely to hold the largest untapped coal reserves in the world. This spurred a rush by large multinational mining companies to obtain mining concessions in the region, and the government granted many prospection licences, and a few mining licences. In one of the poorest countries in the world, with an economy dominated until recently by fishing and agriculture, it seemed the country was on the verge of an economic revolution.
 
-Of particular interest was the composition of Mozambican coal: while some of it was thermal coal, which is burned to generate electricity, a large amount was estimated to be coking coal, which is a necessary input into steel-making, by converting it to coke, and using that in turn to remove impurities from iron through chemical reactions. Coking coal is consiquently much more valuable than thermal coal, and its price was particularly high in 2011 (when this problem is set) due to the surge in demand for construction steel in China. Naturally, uncertainty exists regarding the sustainability of such high prices in the future, and commodity prices are known for being particularly volatile.
+Of particular interest was the composition of Mozambican coal: while some of it was thermal coal, which is burned to generate electricity, a large amount was estimated to be coking coal, which is a necessary input into steel-making, by converting it to coke, and using that in turn to remove impurities from iron through chemical reactions. Coking coal is consequently much more valuable than thermal coal, and its price was particularly high in 2011 (when this problem is set) due to the surge in demand for construction steel in China. Naturally, uncertainty exists regarding the sustainability of such high prices in the future, and commodity prices are known for being particularly volatile.
 
 One of the biggest challenges faced by the mining sector, and by government, is that the coal deposits are located in the North-West of the country, far away from sea ports (which were in any case few in the North of the country) and with no proper access routes. For this reason, one mining company, Vale, decided to build its own 900km railway line, across Mozambique and Malawi to Nacala, where they would expand the port. The government also planned to renovate and expand the existing 600km railway line to Beira, in the center of the country. Other options were considered, but were less likely.
 
@@ -27,4 +27,4 @@ Altogether, these summarise the main variables in our problem:
 
 ![source: Ncondezi](https://raw.githubusercontent.com/drosbcn/coal_dp_app/master/app/moz_map_2.png?token=AAxqqQ9tkV3FIvSYbKxBsW1FOyvK1Oc-ks5Y7hmmwA%3D%3D)
 
-Access on GIT: https://github.com/drosbcn/coal_dp_app .
+Access on GIT: https://github.com/drosbcn/coal_dp_app
