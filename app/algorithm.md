@@ -1,0 +1,70 @@
+
+**Model set-up**
+
+We have a company that has a $N$ years concession of 6 mines of coal from which extracts two types of coal (thermal coal and coking coal). Both types are mixed in the same rock, so one does not decide which type to mine, when the coal is mined a certain percentage is coking and the rest thermal. Coking coal is more valuable than thermal coal. Each mine has its own maximum production capacity per year ($m_k^i$, $i=1,\dots,6$), a finite amount of coal ($C^i$, $i=1\dots,6$) and a certain fixed share of coking coal $\rho^i$, and a share of thermal coal $1 - \rho^i$.
+
+The mines are connected to the port (from which they are exported) by railways that have a total transport capacity $T$. The price of each type of coal is a random variable $w_k^c$, $w_k^t$, which we observe at the start of the year, before we decide how much to mine in that year. The prices of coking and thermal coal are generated using fixed expected prices, but with stochastic shocks which persist for one period, in an MA(1) fashion: $w_k^c=a^c + \beta^c\epsilon_{k-1}^c + \epsilon_k^c$, $w_k^t=a^t + \beta^t\epsilon_{k-1}^t + \epsilon_k^t$, where for both coking and thermal, $\mathbb{E}[\epsilon_k] = 0$. There is a fixed cost of extraction per ton of coal $c$ and if the coal is mined but cannot be transported it is sold at a discount to local energy plants, contributing with a value of $s<c$.
+
+**Primitives**:  
+$x_k^i$: Remaining coal reserves (stock of coal) in mine i at period $k$.  
+$u_k^i$: How much coal to mine in mine i at period $k$.  
+$w_k^c$: Price per ton of coking coal in period k.
+$w_k^t$: Price per ton of thermal coal in period k.
+$\rho^i$: Share of coking coal in mine i.  
+$1 - \rho^i$: Share of thermal coal in mine i.  
+$c$: Cost of extracting a ton of coal.  
+$s$: Salvage price per ton of thermal coal.  
+$m_k^i$: Maximum production capacity for mine i in period k.  
+$T$: Transport capacity.  
+
+**Constrains**:  
+$u_k^i\leq m_k^i$  
+$x_k^i\geq 0$  
+$s < c$  
+
+**Dynamics**:  
+$x_{k+1}=x_k-u_k$  
+$w_k^c=a^c + \beta^c\epsilon_{k-1}^c + \epsilon_k^c$, where $\mathbb{E}[\epsilon_k^c] = 0$  
+$w_k^t=a^t + \beta^t\epsilon_{k-1}^t + \epsilon_k^t$, where $\mathbb{E}[\epsilon_k^t] = 0$  
+
+**Profit**:  
+$g_N(x_N)=0$  
+$g_k(x_k,u_k,w_k)=v_k^cw_k^c+v_k^tw_k^t-cu_k+s\max\{0,u_k-T\}$, where  $$\left(\begin{array}{c}
+v_k^c\\
+v_k^t
+\end{array}\right)=\left\{\begin{array}{ll}
+\left(\begin{array}{c}
+\rho u_k\\
+(1-\rho)u_k
+\end{array}\right) & \text{if } u_k\leq T\\
+\left(\begin{array}{c}
+\min\{\rho u_k,T\}\\
+T-\min\{\rho u_k,T\}
+\end{array}\right) & \text{if } u_k> T
+\end{array}\right.$$
+
+**DP algorithm**:  
+First approach, $T=\infty$. (no salvage value).
+$J_N(x_N)=0$.  
+$J_{k}(x_k)=\underset{\underset{u_{k}\leq x_{k}}{u_{k}\leq m_{k},}}{\max}\mathbb{E}[u_k(\rho w_k^c+(1-\rho)w_k^t-c)+J_{k+1}(x_k-u_k)]$.  
+
+**Solving the DP problem**:
+\begin{align}
+	J_{N-1}(x_{N-1})&=\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\mathbb{E}[u_{N-1}(\rho w_{N-1}^c+(1-\rho)w_{N-1}^t-c)]\\
+	&=\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\{u_{N-1}(\rho\mathbb{E}[w_{N-1}]+(1-\rho)\mathbb{E}[w_{N-1}]-c)\}=\\
+	&\underset{\underset{\ u_{N-1}\leq x_{N-1}}{u_{N-1}\leq m_{N-1},}}{\max}\{u_{N-1}(\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c).
+\end{align}
+Since $\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)>c$, the function is always increasing on $u_{N-1}$, so the maximum will be accomplished on the more restrictive constrain. $u_{N-1}=\min\{m_{N-1},x_{N-1}\}$.  
+Now, for $N-2$:  
+\begin{align}
+	J_{N-2}(x_{N-2})&=\underset{\underset{\ u_{N-2}\leq x_{N-2}}{u_{N-2}\leq m_{N-2},}}{\max}\mathbb{E}[u_{N-2}(\rho w_{N-2}^c+(1-\rho)w_{N-2}^t-c)+J_{N-1}(x_{N-2}-u_{N-1})]=\\
+	&=\underset{\underset{\ u_{N-2}\leq x_{N-1}}{u_{N-2}\leq m_{N-2},}}{\max}\{u_{N-2}(\rho(a_c(N-2)+b_c)+(1-\rho)(a_t(N-2)+b_t)-c)+\\
+	&+\min\{m_{N-1},x_{N-2}-u_{N-2}\}(\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c)\}.
+\end{align}
+Since $\rho(a_c(N-1)+b_c)+(1-\rho)(a_t(N-1)+b_t)-c>\rho(a_c(N-2)+b_c)+(1-\rho)(a_t(N-2)+b_t)-c$, in order to maximize we need $\min\{m_{N-1},x_{N-2}-u_{N-2}\}$ to be as big as possible. That means 
+$$\max\left\{\begin{array}{ll}
+m_{N-1} & \text{if }x_{N-2}-u_{N-2}>m_{N-1}\\
+x_{N-2}-u_{N-2} & \text{otherwise}
+\end{array}\right.,$$
+which will be attained when $u_{N-2}=(x_{N-2}-m_{N-1})^+$. However, since could happen that $(m_{N-1}-x_{N-2})^+>m_{N-2}$, the optimal policy would be $u_k=\min\{(x_{N-2}-m_{N-1})^+,m_{N-2}\}$.  
+Backward induction proves that $u_k=\min\{(x_{k}-\sum_{i=k+1}^{N-1}m_i)^+,m_{k}\}$ (I will write it tomorrow)
