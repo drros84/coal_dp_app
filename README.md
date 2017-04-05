@@ -13,8 +13,9 @@ The objectives of our project are to:
 
 
 ### Structure
-- There are three folders
-
+The repository is comprised of two main folders:
+- An 'app' folder which contains all files, including the data, that are needed to run the app
+- A 'code' folder which contains the DP algorithm code
 
 ### Required packages
 
@@ -28,4 +29,5 @@ The `R` analysis relies on the following packages.
 
 ### Languages Used
 - R
+- LaTex
 - HTML/CSS
