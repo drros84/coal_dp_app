@@ -23,6 +23,8 @@ Altogether, these summarise the main variables in our problem:
 * When coal production is above the transport constraint, coking coal is exported first, and then thermal coal. Excess thermal coal is then sold at a lower salvage price to be used in local thermal energy plants. Coking coal has no salvage price.
 
 
-![source: Mozambique](https://raw.githubusercontent.com/drosbcn/coal_dp_app/master/app/moz_map.jpg?token=AAxqqfICKphYGwHSoFfG8DtjdYROUfvcks5Y7g6nwA%3D%3D)
+![source: Ncondezi](https://raw.githubusercontent.com/drosbcn/coal_dp_app/master/app/moz_map.jpg?token=AAxqqfICKphYGwHSoFfG8DtjdYROUfvcks5Y7g6nwA%3D%3D)
+
+![source: Ncondezi](https://raw.githubusercontent.com/drosbcn/coal_dp_app/master/app/moz_map_2.png?token=AAxqqQ9tkV3FIvSYbKxBsW1FOyvK1Oc-ks5Y7hmmwA%3D%3D)
 
 Access on GIT: https://github.com/drosbcn/coal_dp_app .

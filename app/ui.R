@@ -5,7 +5,10 @@ navbarPage("Coal Mining in Mozambique | DP Algorithm",
            tabPanel("Motivation",
                     includeHTML("about.html")
            ),
-           tabPanel("Model",
+           tabPanel("DP Algorithm",
+                    includeHTML("algorithm.html")
+           ),
+           tabPanel("Modeling",
                     sidebarLayout(
                       sidebarPanel(
                         radioButtons("Coal_Type", "Coal type",
@@ -95,13 +98,6 @@ navbarPage("Coal Mining in Mozambique | DP Algorithm",
                       plotOutput("g_k_graph"),
                       plotOutput("g_graph")
                     ))
-           ),
-           tabPanel("Algorithm",
-                    includeMarkdown("about.md")
-           ),
-          
-           tabPanel("Report",
-                    includeMarkdown("about.md")
            ),
 tags$head(tags$style(HTML('
       .irs-bar {
